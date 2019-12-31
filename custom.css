@@ -34,3 +34,29 @@ body{
  left:0;
  bottom:0;
 }
+#stats {
+	position:absolute;
+	color:white;
+	font-size:28pt;
+	z-index:100;
+	top:0;
+	right:50%;
+	transform:translateX(50%);
+	font-family: 'Cute Font', cursive;
+	
+}
+#elapsed {
+	text-align:center;
+	font-size:72px;
+	margin-bottom:-30px;
+	margin-top:-20px;
+}
+#best {
+	font-size:38px;
+	margin-top:-10px;
+	opacity:0.3;
+	text-align:center;
+}
+* {
+	xborder:1px solid red;
+}

@@ -23,6 +23,7 @@ const MAX_RADIUS:number = 100;
 const KEEP_LOOT:boolean = true;
 
 var player:Circle;
+var startTime:Date;
 
 class Circle {
 	constructor(){
@@ -102,7 +103,7 @@ function draw() {
 			circles.push(newPlayer);
 		}
 	}
-	
+	drawElapsed();
 	requestAnimationFrame(draw);
 }
 
@@ -176,16 +177,6 @@ function bounce(circle) {
 		// mod
 		circle.direction = circle.direction % (2 * Math.PI);
 }
-function drawCircle_old(x, y, radius, border, border_color, fill_color) {
-		context.beginPath();
-		context.arc(x, y, radius, 0, 2 * Math.PI);
-		context.strokeStyle = border_color;
-		context.fillStyle = fill_color;
-		context.lineWidth = border;
-		context.closePath();
-		context.fill();
-		context.stroke();
-}
 
 function drawCircle(circle:Circle, border) {
 	context.beginPath();
@@ -219,18 +210,29 @@ function force_reset() {
 	start();
 }
 
+
+function drawElapsed() {
+	const endTime = new Date();
+	var seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+	$id('elapsed').innerHTML = seconds.toFixed(1) + "s";
+}
+let record:number = 90;
 function start(){
+	if (startTime != null){
+		console.log("Check old time");
+		const endTime = new Date();
+		var seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+		if (record == -1 || seconds < record) {
+			record = seconds;
+		}
+		$id('best').innerHTML = "best:" + record.toFixed(0) + "s";
+	}
+	startTime = new Date();
 	circles = [];
 	for (var i = 0; i < NUM_CIRCLES; i++) {
-		//var x = radius + (Math.random() * (canvas.width - (2 * radius)));
-		//var y = radius + (Math.random() * (canvas.height - (2 * radius)));
-		//var color = randomColor();
-		//var direction = Math.random() * 2.0 * Math.PI;
-		//circles.push({ x: x, y: y, color: color, direction: direction, radius:radius, speed:speed });
 		circles.push(newCircle());
 	}
 	circles.push(createPlayer());
-	//draw();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -242,22 +244,24 @@ document.addEventListener("DOMContentLoaded", function () {
 	draw();
 }, false);
 
-
 function up() {
 	if (player != null) {
 		player.speed = Math.min(player.speed+0.1, speed*2);
 	}
 }
+
 function down() {
 	if (player != null) {
 		player.speed = Math.max(player.speed-0.1, 0);
 	}
 }
+
 function left() {
 	if (player != null) {
 		player.direction -= 0.2;
 	}
 }
+
 function right() {
 	if (player != null) {
 		player.direction += 0.2;
@@ -295,6 +299,11 @@ document.onkeypress = function(e):void {
 			}
 		break;
 	}
+
 	console.log(e.key);
-  }
+}
+
+function $id(id: string): HTMLElement {
+	return document.getElementById(id);
+}
   

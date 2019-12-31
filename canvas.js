@@ -18,6 +18,7 @@ var SLOWDOWN = 1; //0.92;
 var MAX_RADIUS = 100;
 var KEEP_LOOT = true;
 var player;
+var startTime;
 var Circle = /** @class */ (function () {
     function Circle() {
     }
@@ -90,6 +91,7 @@ function draw() {
             circles.push(newPlayer);
         }
     }
+    drawElapsed();
     requestAnimationFrame(draw);
 }
 function detectCollision(circle, circles, index) {
@@ -168,16 +170,6 @@ function bounce(circle) {
     // mod
     circle.direction = circle.direction % (2 * Math.PI);
 }
-function drawCircle_old(x, y, radius, border, border_color, fill_color) {
-    context.beginPath();
-    context.arc(x, y, radius, 0, 2 * Math.PI);
-    context.strokeStyle = border_color;
-    context.fillStyle = fill_color;
-    context.lineWidth = border;
-    context.closePath();
-    context.fill();
-    context.stroke();
-}
 function drawCircle(circle, border) {
     context.beginPath();
     context.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
@@ -205,18 +197,28 @@ function createPlayer() {
 function force_reset() {
     start();
 }
+function drawElapsed() {
+    var endTime = new Date();
+    var seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+    $id('elapsed').innerHTML = seconds.toFixed(1) + "s";
+}
+var record = 90;
 function start() {
+    if (startTime != null) {
+        console.log("Check old time");
+        var endTime = new Date();
+        var seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+        if (record == -1 || seconds < record) {
+            record = seconds;
+        }
+        $id('best').innerHTML = "best:" + record.toFixed(0) + "s";
+    }
+    startTime = new Date();
     circles = [];
     for (var i = 0; i < NUM_CIRCLES; i++) {
-        //var x = radius + (Math.random() * (canvas.width - (2 * radius)));
-        //var y = radius + (Math.random() * (canvas.height - (2 * radius)));
-        //var color = randomColor();
-        //var direction = Math.random() * 2.0 * Math.PI;
-        //circles.push({ x: x, y: y, color: color, direction: direction, radius:radius, speed:speed });
         circles.push(newCircle());
     }
     circles.push(createPlayer());
-    //draw();
 }
 document.addEventListener("DOMContentLoaded", function () {
     canvas = document.getElementById("html-canvas");
@@ -278,3 +280,6 @@ document.onkeypress = function (e) {
     }
     console.log(e.key);
 };
+function $id(id) {
+    return document.getElementById(id);
+}
