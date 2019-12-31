@@ -6,7 +6,7 @@ var speed = 0.44;
 var NUM_CIRCLES = 1200; // The number of circles at the start
 var REPLACE = true; // As circles die, new circles are brought into being
 var NUM_CIRCLES_REPLACE = 200; // The population is 
-var GRAY_SCALE = true;
+var GRAY_SCALE = false;
 var CHANGE_COLOR_ON_BOUNCE = false;
 var PASTELS = true;
 var TRAILS = false;
@@ -208,6 +208,35 @@ document.addEventListener("DOMContentLoaded", function () {
     start();
     draw();
 }, false);
+document.onkeydown = function (e) {
+    console.log(e.keyCode);
+    switch (e.keyCode) {
+        case 37:
+            //left
+            if (player != null) {
+                player.direction -= 0.2;
+            }
+            break;
+        case 38:
+            //up
+            if (player != null) {
+                player.speed = Math.min(player.speed + 0.1, speed * 2);
+            }
+            break;
+        case 39:
+            //right
+            if (player != null) {
+                player.direction += 0.2;
+            }
+            break;
+        case 40:
+            //down
+            if (player != null) {
+                player.speed = Math.max(player.speed - 0.1, 0);
+            }
+            break;
+    }
+};
 document.onkeypress = function (e) {
     switch (e.key) {
         case "1":
@@ -217,8 +246,9 @@ document.onkeypress = function (e) {
             break;
         case "2":
             if (player != null) {
-                player.speed = Math.max(player.speed - 0.1, speed * -2);
+                player.speed = Math.max(player.speed - 0.1, 0); //speed * -2);
             }
             break;
     }
+    console.log(e.key);
 };

@@ -8,7 +8,7 @@ const NUM_CIRCLES:number = 1200; // The number of circles at the start
 const REPLACE:boolean = true; // As circles die, new circles are brought into being
 const NUM_CIRCLES_REPLACE = 200; // The population is 
 
-const GRAY_SCALE:boolean = true;
+const GRAY_SCALE:boolean = false;
 const CHANGE_COLOR_ON_BOUNCE:boolean = false;
 const PASTELS:boolean = true;
 
@@ -226,6 +226,37 @@ document.addEventListener("DOMContentLoaded", function () {
 }, false);
 
 
+document.onkeydown = function(e):void {
+	console.log(e.keyCode);
+	switch(e.keyCode) {
+		case 37:
+			//left
+			if (player != null) {
+				player.direction -= 0.2;
+			}
+			break;
+		case 38:
+			//up
+			if (player != null) {
+				player.speed = Math.min(player.speed+0.1, speed*2);
+			}
+			break;
+		case 39:
+			//right
+			if (player != null) {
+				player.direction += 0.2;
+			}
+
+			break;
+		case 40:
+			//down
+			if (player != null) {
+				player.speed = Math.max(player.speed-0.1, 0);
+			}
+			break;
+	}
+};
+
 document.onkeypress = function(e):void {
 	switch (e.key) {
 	  case "1":
@@ -235,10 +266,10 @@ document.onkeypress = function(e):void {
 		break;
 	  case "2":
 			if (player != null) {
-				player.speed = Math.max(player.speed-0.1, speed * -2);
-				
+				player.speed = Math.max(player.speed-0.1, 0);//speed * -2);
 			}
 		break;
 	}
+	console.log(e.key);
   }
   
