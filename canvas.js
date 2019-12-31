@@ -208,32 +208,40 @@ document.addEventListener("DOMContentLoaded", function () {
     start();
     draw();
 }, false);
+function up() {
+    if (player != null) {
+        player.speed = Math.min(player.speed + 0.1, speed * 2);
+    }
+}
+function down() {
+    if (player != null) {
+        player.speed = Math.max(player.speed - 0.1, 0);
+    }
+}
+function left() {
+    if (player != null) {
+        player.direction -= 0.2;
+    }
+}
+function right() {
+    if (player != null) {
+        player.direction += 0.2;
+    }
+}
 document.onkeydown = function (e) {
     console.log(e.keyCode);
     switch (e.keyCode) {
         case 37:
-            //left
-            if (player != null) {
-                player.direction -= 0.2;
-            }
+            left();
             break;
         case 38:
-            //up
-            if (player != null) {
-                player.speed = Math.min(player.speed + 0.1, speed * 2);
-            }
+            up();
             break;
         case 39:
-            //right
-            if (player != null) {
-                player.direction += 0.2;
-            }
+            right();
             break;
         case 40:
-            //down
-            if (player != null) {
-                player.speed = Math.max(player.speed - 0.1, 0);
-            }
+            down();
             break;
     }
 };

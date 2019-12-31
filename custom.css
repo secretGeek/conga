@@ -8,3 +8,29 @@ body{
   margin: 0;
   padding: 0;
 }
+button {
+ position:absolute;
+ color:white;
+ background-color:#00000000;/*transparent*/
+ border:none;
+ z-index:100;
+ font-size:28pt;
+}
+#left { 
+ right:0;
+ bottom:0px;
+ transform:translateX(-100%);
+}
+#right{
+ right:0;
+ bottom:0;
+}
+#up {
+ left:0;
+ bottom:0;
+ transform:translateY(-100%);
+}
+#down {
+ left:0;
+ bottom:0;
+}
