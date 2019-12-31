@@ -126,16 +126,24 @@ function detectCollision(circle, circles, index) {
 					consider.color = "#000000";
 					circle.speed *= SLOWDOWN;
 					if (circle.radius >= MAX_RADIUS) { 
-						force_reset();
-						return;
+						if (circle.isPlayer) {
+							force_reset();
+							return;
+						} else {
+							circle.color = "#000000";
+						}
 					}
 				} else {
 					consider.radius += (circle.radius/GROWTH_FACTOR);
 					circle.color = "#000000";
 					consider.speed *= SLOWDOWN;
 					if (consider.radius >= MAX_RADIUS) {
-						force_reset();
-						return;
+						if (consider.isPlayer) {
+							force_reset();
+							return;
+						} else {
+							consider.color = "#000000";
+						}
 					}
 				}
 			} else {
