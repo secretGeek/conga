@@ -20,6 +20,7 @@ const CIRCLE_BORDER:number = 2;
 const ACCELERATION:number = 0;//0.001;//0.001;
 const SLOWDOWN:number = 1;//0.92;
 const MAX_RADIUS:number = 100;
+const KEEP_LOOT:boolean = true;
 
 var player:Circle;
 
@@ -77,9 +78,13 @@ function draw() {
 	});
 	//remove hit circles
 	let playerHit:boolean = false;
+	let playerRadius:number;
 	for(var i = circles.length-1; i >= 0; i--) {
 		if (circles[i] != undefined && circles[i].color == '#000000') {
-			if (circles[i].isPlayer) playerHit = true;
+			if (circles[i].isPlayer) {
+				playerHit = true;
+				playerRadius = player.radius;
+			}
 			circles.splice(i,1);
 		}
 	}
@@ -90,7 +95,11 @@ function draw() {
 			circles.push(newCircle());
 		}
 		if (playerHit){
-			circles.push(createPlayer());
+			var newPlayer = createPlayer();
+			if (KEEP_LOOT){
+				newPlayer.radius = playerRadius;
+			}
+			circles.push(newPlayer);
 		}
 	}
 	

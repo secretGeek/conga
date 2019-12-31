@@ -16,6 +16,7 @@ var CIRCLE_BORDER = 2;
 var ACCELERATION = 0; //0.001;//0.001;
 var SLOWDOWN = 1; //0.92;
 var MAX_RADIUS = 100;
+var KEEP_LOOT = true;
 var player;
 var Circle = /** @class */ (function () {
     function Circle() {
@@ -65,10 +66,13 @@ function draw() {
     });
     //remove hit circles
     var playerHit = false;
+    var playerRadius;
     for (var i = circles.length - 1; i >= 0; i--) {
         if (circles[i] != undefined && circles[i].color == '#000000') {
-            if (circles[i].isPlayer)
+            if (circles[i].isPlayer) {
                 playerHit = true;
+                playerRadius = player.radius;
+            }
             circles.splice(i, 1);
         }
     }
@@ -79,7 +83,11 @@ function draw() {
             circles.push(newCircle());
         }
         if (playerHit) {
-            circles.push(createPlayer());
+            var newPlayer = createPlayer();
+            if (KEEP_LOOT) {
+                newPlayer.radius = playerRadius;
+            }
+            circles.push(newPlayer);
         }
     }
     requestAnimationFrame(draw);
